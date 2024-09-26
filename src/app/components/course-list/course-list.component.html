@@ -1,0 +1,21 @@
+<div class="container">
+    <p class="page-title">קורסים אונליין</p>
+    <br>    <br>
+
+    <div class="row" style="justify-content: center;">
+      <div *ngFor="let course of homePageService.listCourse" class="col-md-4">
+        <div class="card mb-4 animate__animated animate__fadeInUp">
+          <img class="card-img-top" src="../../../assets/pic/pic1.jpg" alt="Card image">
+          <div class="card-body">
+            <h4 class="card-title">{{ course.courses_name }}</h4>
+            <p class="card-text">{{ course.price }} ש"ח</p>
+            <div class="button-container">
+              <a [routerLink]="['/course', course.courses_id]" class="btn btn-pink">פרטים</a>
+              <a [routerLink]="['/buyCours', course.courses_id]" class="btn btn-pink">קניה</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

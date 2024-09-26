@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+
+<head>
+  <meta charset="utf-8">
+  <title>Project</title>
+  <base href="/">
+  <!-- <base href="https://diversi-tech.github.io/stagecraft-front/">   -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <!-- טען את CSS של MUI -->
+  <link rel="stylesheet" href="https://unpkg.com/@mui/material@5.11.0/umd/material-ui.production.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@mui/icons-material@5.11.0/umd/material-ui-icons.production.min.css">
+</head>
+
+<body class="mat-typography">
+  <div class="zoom-container">
+    <div class="zoom-content">
+      <app-root></app-root> <!-- רכיב האפליקציה הראשי -->
+    </div>
+  </div>
+
+  <!-- כפתור נגישות -->
+  <button id="accessibility-btn" aria-label="Toggle accessibility options" onclick="toggleAccessibilityMenu()" class="MuiButton-root MuiButton-contained MuiButton-containedPrimary">
+    <span class="MuiButton-label">
+      <img src="assets/pic/נגישות.jpg" alt="Accessibility Icon"> <!-- תמונת אייקון נגישות -->
+    </span>
+  </button>
+
+  <!-- תפריט נגישות -->
+  <div id="accessibility-menu" class="hidden MuiPaper-root MuiPaper-elevation4 MuiPopover-paper">
+    <button onclick="toggleHighContrast(); closeMenu()" class="MuiButton-root MuiButton-contained MuiButton-containedPrimary">
+      <span class="material-icons">contrast</span> ניגודיות גבוהה
+    </button> <!-- כפתור ניגודיות גבוהה -->
+    <button onclick="addAriaLabels(); closeMenu()" class="MuiButton-root MuiButton-contained MuiButton-containedPrimary">
+      <span class="material-icons">accessible</span> הוספת תגיות ARIA
+    </button> <!-- כפתור הוספת תגיות ARIA -->
+    <label for="cursor-size" class="MuiFormLabel-root">גודל סמן:</label> <!-- תווית גודל סמן -->
+    <select id="cursor-size" onchange="updateCursor()" class="MuiSelect-root"> <!-- בחירת גודל סמן -->
+      <option value="default" class="MuiMenuItem-root">רגיל</option>
+      <option value="large" class="MuiMenuItem-root">גדול</option>
+    </select>
+    <label for="cursor-shape" class="MuiFormLabel-root">צורת סמן:</label> <!-- תווית צורת סמן -->
+    <select id="cursor-shape" onchange="updateCursor()" class="MuiSelect-root"> <!-- בחירת צורת סמן -->
+      <option value="default" class="MuiMenuItem-root">רגיל</option>
+      <option value="arrow" class="MuiMenuItem-root">חץ</option>
+      <option value="star" class="MuiMenuItem-root">כוכב</option>
+      <option value="heart" class="MuiMenuItem-root">לב</option>
+      <option value="diamond" class="MuiMenuItem-root">יהלום</option>
+    </select>
+    <label for="cursor-color" class="MuiFormLabel-root">צבע סמן:</label> <!-- תווית צבע סמן -->
+    <input type="color" id="cursor-color" onchange="updateCursor()" class="MuiInputBase-root MuiInput-input"> <!-- בחירת צבע סמן -->
+    <button onclick="activateTextReader()" class="MuiButton-root MuiButton-contained MuiButton-containedPrimary">
+      <span class="material-icons">record_voice_over</span> קורא טקסט
+    </button> <!-- כפתור קורא טקסט -->
+    <button onclick="updateFontSize(document.getElementById('font-size').value)" class="MuiButton-root MuiButton-contained MuiButton-containedPrimary">
+      <span class="material-icons">text_fields</span> הגדלת פונט
+    </button> <!-- כפתור הגדלת פונט -->
+    <label for="font-size" class="MuiFormLabel-root">גודל פונט לאתר:</label>
+    <input type="range" id="font-size" name="font-size" min="1" max="3" step="0.1" value="1" onchange="updateFontSize(this.value)" class="MuiSlider-root">
+
+    <button onclick="highlightHeadings()" class="MuiButton-root MuiButton-contained MuiButton-containedPrimary">
+      <span class="material-icons">highlight</span> הדגשת כותרות
+    </button> <!-- כפתור הדגשת כותרות -->
+    <button onclick="resetAccessibility()" class="MuiButton-root MuiButton-contained MuiButton-containedSecondary">
+      <span class="material-icons">refresh</span> איפוס
+    </button> <!-- כפתור איפוס -->
+  </div>
+
+  <script>
+   function toggleAccessibilityMenu() {
+  const menu = document.getElementById('accessibility-menu'); // בחירת תפריט הנגישות לפי מזהה ה-ID שלו
+  if (menu) { // בדיקה אם התפריט קיים
+    if (menu.classList.contains('hidden')) { // בדיקה אם התפריט מוסתר
+      menu.classList.remove('hidden'); // הסרת מחלקת ההסתרה מהתפריט
+      menu.style.display = 'flex'; // הצגת התפריט עם תכונת תצוגה של Flexbox
+    } else { 
+      menu.classList.add('hidden'); // הוספת מחלקת ההסתרה לתפריט
+      menu.style.display = 'none'; // הסתרת התפריט
+    }
+  }
+}
+
+
+   
+function toggleHighContrast() {
+  document.body.classList.toggle('high-contrast'); // החלפת מחלקת ה-CSS של מצב ניגודיות גבוהה בגוף הדף
+  alert('עברת למצב ניגודיות גבוהה'); // הצגת הודעת אישור למשתמש
+}
+
+
+function addAriaLabels() {
+  const navLinks = document.querySelectorAll('.nav-link'); // בחירת כל הקישורים עם מחלקת ה-CSS 'nav-link'
+  navLinks.forEach(link => { // עבור כל קישור ברשימה
+    const textContent = link.textContent; // אחסון תוכן הטקסט של הקישור
+    if (textContent) { // בדיקה אם יש טקסט בקישור
+      link.setAttribute('aria-label', textContent); // הוספת תגית ARIA עם תוכן הטקסט
+    }
+  });
+  alert('תגיות ARIA נוספו'); // הצגת הודעת אישור למשתמש
+}
+
+// פונקציה לעדכון צורת, גודל וצבע הסמן
+function updateCursor() {
+  // מקבל את צורת הסמן מהאלמנט בעל ה-ID 'cursor-shape'
+  const cursorShape = document.getElementById('cursor-shape').value;
+
+  // מקבל את צבע הסמן מהאלמנט בעל ה-ID 'cursor-color', או מציב צבע ברירת מחדל 'שחור' אם לא נבחר צבע
+  const cursorColor = document.getElementById('cursor-color').value || 'black';
+
+  // מקבל את גודל הסמן מהאלמנט בעל ה-ID 'cursor-size'
+  const cursorSize = document.getElementById('cursor-size').value;
+
+  // יוצר URL של סמן מותאם לפי הצורה, הצבע והגודל שנבחרו
+  const cursorUrl = createCursor(cursorShape, cursorColor, cursorSize);
+
+  // מעדכן את הסמן של הדף כולו לפי ה-URL שנוצר
+  document.body.style.cursor = cursorUrl;
+}
+
+// פונקציה ליצירת URL של סמן מותאם
+function createCursor(shape, color, size) {
+  // קובע את גודל הסמן בפיקסלים, 48 פיקסלים אם נבחר 'large', אחרת 32 פיקסלים
+  const sizeValue = size === 'large' ? 48 : 32;
+
+  // משתנה לאחסון ה-SVG המתאר את הסמן
+  let svg;
+
+  // בודק איזו צורה נבחרה ומייצר SVG מתאים לפי הצורה והצבע
+  switch (shape) {
+    case 'arrow':
+      // יוצר סמן בצורת חץ
+      svg = `<svg xmlns="http://www.w3.org/2000/svg" height="${sizeValue}" width="${sizeValue}"><polygon points="0,0 0,${sizeValue} ${sizeValue / 2},${sizeValue / 2}" fill="${color}"/></svg>`;
+      break;
+    case 'star':
+      // יוצר סמן בצורת כוכב
+      svg = `<svg xmlns="http://www.w3.org/2000/svg" height="${sizeValue}" width="${sizeValue}"><polygon points="${sizeValue / 2},0 ${sizeValue * 0.625},${sizeValue / 3.2} ${sizeValue},${sizeValue * 0.375} ${sizeValue * 0.6875},${sizeValue * 0.5625} ${sizeValue * 0.75},${sizeValue} ${sizeValue / 2},${sizeValue * 0.71875} ${sizeValue * 0.25},${sizeValue} ${sizeValue * 0.3125},${sizeValue * 0.5625} 0,${sizeValue * 0.375} ${sizeValue * 0.375},${sizeValue / 3.2}" fill="${color}"/></svg>`;
+      break;
+    case 'heart':
+      // יוצר סמן בצורת לב
+      svg = `<svg xmlns="http://www.w3.org/2000/svg" height="${sizeValue}" width="${sizeValue}" viewBox="0 0 32 32"><path d="M16 29S3 20 3 10c0-3.866 3.134-7 7-7 2.486 0 4.66 1.184 6 3.021C18.34 4.184 20.514 3 23 3c3.866 0 7 3.134 7 7 0 10-13 19-13 19z" fill="${color}"/></svg>`;
+      break;
+    case 'diamond':
+      // יוצר סמן בצורת יהלום
+      svg = `<svg xmlns="http://www.w3.org/2000/svg" height="${sizeValue}" width="${sizeValue}"><polygon points="${sizeValue / 2},0 ${sizeValue},${sizeValue / 2} ${sizeValue / 2},${sizeValue} 0,${sizeValue / 2}" fill="${color}"/></svg>`;
+      break;
+    case 'large':
+      // יוצר סמן בצורת עיגול גדול
+      svg = `<svg xmlns="http://www.w3.org/2000/svg" height="48" width="48"><circle cx="24" cy="24" r="24" fill="${color}"/></svg>`;
+      break;
+    case 'default':
+    default:
+      // יוצר סמן בצורת עיגול רגיל (ברירת מחדל)
+      svg = `<svg xmlns="http://www.w3.org/2000/svg" height="32" width="32"><circle cx="16" cy="16" r="16" fill="${color}"/></svg>`;
+      break;
+  }
+
+  // מחזיר URL עבור הסמן שנוצר ומציב אותו כ- cursor של הדף
+  return `url('data:image/svg+xml;utf8,${encodeURIComponent(svg)}'), auto`;
+}
+
+
+let textReaderActive = false; // משתנה לבדיקת מצב קורא טקסט, האם הוא מופעל או לא
+
+// פונקציה להפעלת קורא טקסט
+function activateTextReader() {
+  if (!textReaderActive) { // בדיקה אם קורא הטקסט אינו פעיל
+    document.addEventListener('mouseover', handleMouseOver); // הוספת מאזין לאירוע mouseover כדי לזהות מעבר עכבר על טקסט
+    textReaderActive = true; // עדכון המצב כך שקורא הטקסט פעיל
+    const welcomeMessage = new SpeechSynthesisUtterance('שלום, אני קורא הטקסט שלך. הזז את העכבר כדי שאקרא בשבילך.'); // יצירת הודעת ברוך הבא 
+    window.speechSynthesis.speak(welcomeMessage); // השמעת הודעת ברוך הבא
+  } else { // אם קורא הטקסט כבר פעיל
+    document.removeEventListener('mouseover', handleMouseOver); // הסרת מאזין לאירוע mouseover
+    textReaderActive = false; // עדכון המצב כך שקורא הטקסט אינו פעיל
+    window.speechSynthesis.cancel(); // ביטול כל קריאה נוכחית
+    alert('קורא טקסט כובה'); // הודעה למשתמש שקורא הטקסט כובה
+  }
+}
+
+// פונקציה לניהול קריאת טקסט בעת מעבר עכבר
+function handleMouseOver(event) {
+  const target = event.target; // קבלת האלמנט שעליו עבר העכבר
+  if (target) { // בדיקה אם קיים אלמנט
+    const textToRead = target.innerText || target.alt; // קבלת הטקסט לקריאה מתוך האלמנט או מהתיאור החלופי (alt)
+    if (textToRead) { // בדיקה אם יש טקסט לקריאה
+      const speech = new SpeechSynthesisUtterance(textToRead); // יצירת אובייקט לקריאת הטקסט
+      window.speechSynthesis.cancel(); // ביטול כל קריאה נוכחית כדי למנוע קריאות חופפות
+      window.speechSynthesis.speak(speech); // התחלת קריאת הטקסט
+    }
+  }
+}
+
+
+   // פונקציה לעדכון גודל פונט לפי בחירת המשתמש
+function updateFontSize(size) {
+  console.log('Selected font size:', size); // הדפסת גודל הפונט הנבחר לקונסול לצורכי בדיקה
+  document.documentElement.style.fontSize = `${size}em`; // שינוי גודל הפונט של כל האתר (HTML) בהתאם לגודל הנבחר
+
+  // בחירת כל האלמנטים שצריכים להתאים את גודל הפונט שלהם
+  const elements = document.querySelectorAll('body, nav, .menu-link, a, button, span, p, li, h1, h2, h3, h4, h5, h6');
+  
+  // עבור כל אלמנט שנבחר, עדכן את גודל הפונט כך שיירש את גודל הפונט מההגדרה של HTML
+  elements.forEach(el => {
+    el.style.fontSize = 'inherit'; // הפונט של האלמנט יירש את גודל הפונט מהגדרת ה-HTML
+  });
+  
+  // הוספת גלילה לדף במקרה הצורך כדי שהמשתמש יוכל לראות את כל התוכן, גם אם הפונט גדל משמעותית
+  document.documentElement.style.overflow = "auto";
+  document.body.style.overflow = "auto";
+}
+
+
+    // פונקציה להדגשת כותרות
+    function highlightHeadings() {
+      document.body.classList.add('highlight-headings');
+      localStorage.setItem('headingsHighlighted', 'true');
+      alert('הכותרות הודגשו');
+    }
+
+    // שחזור מצב הדגשת כותרות בעת טעינת הדף
+    function restoreHighlightHeadings() {
+      const highlighted = localStorage.getItem('headingsHighlighted');
+      if (highlighted === 'true') {
+        document.body.classList.add('highlight-headings');
+      }
+    }
+    // הוסף מאזין לחיצה על כפתור להדגשת כותרות
+document.getElementById('highlightButton').addEventListener('click', highlightHeadings);
+
+    document.addEventListener('DOMContentLoaded', restoreHighlightHeadings);
+// פונקציה לאיפוס כל ההגדרות
+function resetAccessibility() {
+  document.body.classList.remove('high-contrast'); // הסרת המחלקה עבור ניגודיות גבוהה
+  document.body.classList.remove('highlight-headings'); // הסרת המחלקה להדגשת כותרות
+  document.body.style.fontSize = ''; // איפוס גודל הגופן של כל הדף
+  const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6'); // בחירת כל הכותרות (h1 עד h6)
+  headings.forEach(heading => {
+    heading.style.backgroundColor = ''; // איפוס צבע הרקע של הכותרות
+    heading.style.fontSize = ''; // איפוס גודל הגופן של הכותרות
+  });
+  window.speechSynthesis.cancel(); // ביטול כל סינתזת הדיבור הפעילה (ביטול קריאת טקסט)
+  if (textReaderActive) { // בדיקה אם קריאת הטקסט פעילה
+    document.removeEventListener('mouseover', handleMouseOver); // הסרת מאזין האירועים של קריאת טקסט בעת מעבר עכבר
+    textReaderActive = false; // עדכון מצב קריאת הטקסט ללא פעיל
+  }
+  document.body.style.cursor = ''; // איפוס הסמן של העכבר
+  localStorage.removeItem('headingsHighlighted'); // הסרת שמירת מצב ההדגשה מ-localStorage
+  alert('כל הגדרות הנגישות אופסו'); // הודעה למשתמש שההגדרות אופסו
+}
+document.addEventListener('contextmenu', event => {
+  if (event.target.nodeName === 'VIDEO') {
+    event.preventDefault();
+  }
+});
+
+  </script>
+</body>
+
+</html>

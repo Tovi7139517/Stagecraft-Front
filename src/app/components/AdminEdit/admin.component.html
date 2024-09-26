@@ -1,0 +1,103 @@
+<table>
+  <thead>
+    <tr>
+      <th>courses_id</th>
+      <th>courses_name</th>
+      <th>title</th>
+      <th>description</th>
+      <th>create_at</th>
+      <th>update_at</th>
+      <th>price</th>
+      <th>Several_chapters</th>
+      <th>Length</th>
+      <th>numberOfViewers</th>
+      <th>Video</th>
+      <th>TaskFiles</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let fl of admin; let i = index">
+      <td>{{ fl?.courses_id }}</td>
+      <td>{{ fl?.courses_name }}</td>
+      <td>{{ fl?.title }}</td>
+      <td>{{ fl?.description }}</td>
+      <td>{{ fl?.create_at | date:"dd/MM/yy" }}</td>
+      <td>{{ fl?.update_at | date:"dd/MM/yy" }}</td>
+      <td>{{ fl?.price }}</td>
+      <td>{{ fl?.several_chapters }}</td>
+      <td>{{ fl?.length }}</td>
+      <td>{{ fl?.numberOfViewers }}</td>
+      <td>{{ fl?.videoURL }}</td>
+      <td>{{ fl?.taskFilesURL }}</td>
+      <td><button (click)="onEdit(i)">Edit</button></td>
+      <td><button (click)="onDelete(fl?.courses_id)">delete</button></td>
+    </tr>
+  </tbody>
+</table>
+
+<ng-template #dialogTemplate>
+  <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+    <div class="dialog-container">
+      <label>courses_id: </label>
+      <input type="number" formControlName="courses_id"><br><br>
+      <label>courses_name: </label>
+      <input type="text" formControlName="courses_name" class="form-control" [ngClass]="{ 'ng-invalid': courseForm.get('courses_name')?.invalid && (courseForm.get('courses_name')?.dirty || courseForm.get('courses_name')?.touched) }">
+      <div *ngIf="courseForm.get('courses_name')?.invalid && (courseForm.get('courses_name')?.dirty || courseForm.get('courses_name')?.touched)" class="error">
+        זהו שדה חובה
+      </div>
+      <br><br>
+      <label>title: </label>
+      <input type="text" formControlName="title" class="form-control" [ngClass]="{ 'ng-invalid': courseForm.get('title')?.invalid && (courseForm.get('title')?.dirty || courseForm.get('title')?.touched) }">
+      <div *ngIf="courseForm.get('title')?.invalid && (courseForm.get('title')?.dirty || courseForm.get('title')?.touched)" class="error">
+        זהו שדה חובה
+      </div>
+      <br><br>
+      <label>description: </label>
+      <input type="text" formControlName="description" class="form-control" [ngClass]="{ 'ng-invalid': courseForm.get('description')?.invalid && (courseForm.get('description')?.dirty || courseForm.get('description')?.touched) }">
+      <div *ngIf="courseForm.get('description')?.invalid && (courseForm.get('description')?.dirty || courseForm.get('description')?.touched)" class="error">
+        זהו שדה חובה
+      </div>
+      <br><br>
+      <label>price: </label>
+      <input type="number" formControlName="price" class="form-control" [ngClass]="{ 'ng-invalid': courseForm.get('price')?.invalid && (courseForm.get('price')?.dirty || courseForm.get('price')?.touched) }">
+      <div *ngIf="courseForm.get('price')?.invalid && (courseForm.get('price')?.dirty || courseForm.get('price')?.touched)" class="error">
+        זהו שדה חובה
+      </div>
+      <br><br>
+      <label>several_chapters: </label>
+      <input type="number" formControlName="several_chapters" class="form-control" [ngClass]="{ 'ng-invalid': courseForm.get('several_chapters')?.invalid && (courseForm.get('several_chapters')?.dirty || courseForm.get('several_chapters')?.touched) }">
+      <div *ngIf="courseForm.get('several_chapters')?.invalid && (courseForm.get('several_chapters')?.dirty || courseForm.get('several_chapters')?.touched)" class="error">
+        זהו שדה חובה
+      </div>
+      <br><br>
+      <label>length: </label>
+      <input type="text" formControlName="length" class="form-control" [ngClass]="{ 'ng-invalid': courseForm.get('length')?.invalid && (courseForm.get('length')?.dirty || courseForm.get('length')?.touched) }">
+      <div *ngIf="courseForm.get('length')?.invalid && (courseForm.get('length')?.dirty || courseForm.get('length')?.touched)" class="error">
+        זהו שדה חובה
+      </div>
+      <br><br>
+      <label>numberOfViewers: </label>
+      <input type="number" formControlName="numberOfViewers" class="form-control" [ngClass]="{ 'ng-invalid': courseForm.get('numberOfViewers')?.invalid && (courseForm.get('numberOfViewers')?.dirty || courseForm.get('numberOfViewers')?.touched) }">
+      <div *ngIf="courseForm.get('numberOfViewers')?.invalid && (courseForm.get('numberOfViewers')?.dirty || courseForm.get('numberOfViewers')?.touched)" class="error">
+        זהו שדה חובה
+      </div>
+      <br><br>
+      <label>Video: </label>
+      <input type="button" value="לבחירת סרטון:" (click)="videoFileComponent.triggerFileInput()"><br><br>
+      <label>TaskFiles: </label>
+      <input type="button" value="לבחירת קובץ:" (click)="taskFileComponent.triggerFileInput()"><br><br>
+      <app-uploading-file #taskFileComponent (fileNameSelected)="onFileNameSelected($event)"></app-uploading-file>
+      <app-uploading-video #videoFileComponent (videoNameSelected)="onVideoNameSelected($event)"></app-uploading-video>
+      <!-- <div *ngIf="selectedFileName">
+        <p>Selected File: {{ selectedFileName }}</p>
+      </div>
+      <div *ngIf="selectedVideoName">
+        <p>Selected Video: {{ selectedVideoName }}</p>
+      </div> -->
+      <br><br>
+      <button type="submit" [disabled]="courseForm.invalid" [ngClass]="{'disabled-button': courseForm.invalid, 'enabled-button': !courseForm.invalid}">Save</button>
+    </div>
+  </form>
+</ng-template>
+
+<button mat-button (click)="initializeNewCourse(); openDialog()">Add Course</button>

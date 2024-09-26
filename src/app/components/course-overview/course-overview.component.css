@@ -1,0 +1,133 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fafafa;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+p {
+  margin-top: 5%;
+}
+
+.header-text {
+  font-size: 3cm;
+  font-family: 'Fb Parmesan Light', sans-serif;
+  text-align: center;
+  color: rgb(194, 12, 76);
+  animation: fadeIn 2s ease-in-out;
+}
+
+.course-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.course-card {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.course-card:hover {
+
+  transform: scale(1.05);
+}
+
+.course-button-container {
+
+  background-color: #ffffff;
+  padding: 10px;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.course-button {
+  background-color: rgb(194, 12, 76);
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.course-button:hover {
+  background-color: rgb(154, 12, 56);
+}
+
+.lesson-list {
+  padding: 10px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.lesson-card {
+  margin-bottom: 10px;
+}
+
+.lesson-button-container {
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  text-align: right;
+}
+
+.lesson-button {
+  background-color: #e8bf2b;
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.lesson-button:hover {
+  background-color: #d3ac42;
+}
+
+.lesson-details {
+  padding: 10px;
+  background-color: #f1f1f1;
+  border-top: 1px solid #ddd;
+  animation: slideIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+
+  p {
+    margin-top: 10%;
+  }
+}
+  .course-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }

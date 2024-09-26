@@ -1,0 +1,58 @@
+<!-- <div class="container">
+  <p class="header-text">הקורסים שלי</p>
+  <br>  <br>
+  <br>
+
+  <div class="course-list">
+    <div *ngFor="let course of userCourses" class="course-card">
+      <div class="course-button-container">
+        <button (click)="toggleCourse(course.courses_id)" class="course-button">
+          {{ course.courses_name }}
+        </button>
+      </div>
+      <div *ngIf="course.expanded" class="lesson-list">
+        <ng-container *ngFor="let lesson of homePageService.listClasses">
+          <div *ngIf="lesson.courses_id === course.courses_id" class="lesson-card">
+            <div class="lesson-button-container">
+              <button (click)="toggleLesson(course.courses_id, lesson.class_id)" class="lesson-button">
+                {{ lesson.title }}
+              </button>
+            </div>
+            <div *ngIf="lesson.expanded" class="lesson-details">
+              <app-progressbar></app-progressbar>
+              <div class="video-container">
+                <video width="320" height="240" controls>
+                  <source [src]="lesson.video_url" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+              <br>
+              <a [href]="lesson.video_url" download>Download Video</a>
+              <a (click)="downloadAndNavigate(lesson)">הורדת קבצי משימה</a>
+              <br>
+              <a (click)="UploadFilesForFeedback(lesson)"class="custom-link">העלאת קבצים למשוב</a>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div> 
+ 
+ -->
+
+ <div class="container">
+  <p class="header-text">הקורסים שלי</p>
+  <br><br><br>
+  
+  <div class="course-list">
+    <div *ngFor="let course of userCourses" class="course-card">
+      <div class="course-button-container">
+        <button (click)="navigateToCourse(course.courses_id)" class="course-button">
+          {{ course.courses_name }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
